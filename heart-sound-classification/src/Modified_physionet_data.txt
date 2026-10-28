@@ -1,0 +1,45 @@
+This file is in accordance with PhysioNet's copying policy. You can find 
+PhysioNet's copying policy here:
+
+https://www.physionet.org/copying.shtml
+
+Data Source:
+
+The files in heartSoundData.mat are modified copies of the files from the 2016 PhysioNet Cardiology in Computing Challenge. 
+The original file names are not retained in this dataset in accordance with a stipulation of PhysioNet's copying
+policy that distributed files be renamed.
+
+The raw data is obtained from the following website:
+
+https://www.physionet.org/physiobank/database/challenge/2016/
+See the References section below for the proper attributions for this data.
+
+The PhysioNet/CinC Challenge 2016 site contains a training.zip and validation.zip file.
+Both training.zip and validation.zip are used in forming the data set.
+
+heartSoundData.mat is a MATLAB structure array with two fields:
+Data : a 10,000-by-3829 matrix
+Classes: a 3829-by-1 categorical array
+
+Each column of heartSoundData.Data is phonocardiogram recording. Columns 1 to 3240 of the data matrix correspond to the first 10,000 samples of the .wav files in the folders, training-a, training-b, training-c, training-d, training-e, and training-f. The columns are ordered starting from "a0001.wav" in the training-a folder to "f0114.wav". For example:
+
+>> y = audioread("a0001.wav");
+>> y = y(1:1e4);
+% Corresponds to 
+>> a001 = heartSoundData.Data(:,1);
+>> plot([a001 y])
+
+Columns 3241 to 3338 are constructed from samples 10,001 to 20,000 of every record classified as abnormal in the validation set with at least 20,000 samples. The records in the validation set 
+are a subset of records in the training set. Accordingly we use samples 10,001 to 20,000 because these samples are not utilized in other columns of heartSoundData.Data. Records 3339 to 3829
+correspond to samples 20,001 to 30,000 of all abnormal records in the training-a, training-c, training-d, training-e, and training-f folders with at least 30,000 samples. Samples 20,001 to 30,000 are used because they are not included in any other column of heartSoundData.Data. The files used to obtain these extra 589 abnormal records are listed in extrafiles.mat. extrafiles.mat contains a 1x6 cell array of string vectors. The first element of extrafiles contains the files from the validation folder (samples 10,001 to 20,000 of those files). The second element of extrafiles contains the records used from training-a (samples 20,001 to 30,000), the third element the records from training-c, the fourth element the records from training-d, the fifth the records from training-e, and the sixth element the records from training-f. 
+
+The data are not resampled or processed in any other way.      
+
+
+References
+
+1. Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit,and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. Circulation 101(23):e215-e220 [Circulation Electronic Pages; http://circ.ahajournals.org/content/101/23/e215.full]; 2000 (June 13).
+2. Liu et al. An open access database for the evaluation of heart sound algorithms. Physiol Meas. 2016 Nov 21;37(12):2181-2213 https://www.ncbi.nlm.nih.gov/pubmed/27869105
+
+
+

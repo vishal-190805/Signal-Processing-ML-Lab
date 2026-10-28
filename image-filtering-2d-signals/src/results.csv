@@ -1,0 +1,18 @@
+Metric,Value
+Name,Bagada Vishal Jayantilal
+Roll No,23EE38004
+Image height,512
+Image width,512
+Salt probability,0.02
+Pepper probability,0.05
+Noisy PSNR (dB),17.156103170669976
+Mean filter PSNR (dB),24.91541904468738
+Gaussian filter PSNR (dB),24.533275261585338
+Median inbuilt PSNR (dB),34.25088333680934
+Median custom PSNR (dB),33.542342495200565
+Laplacian display PSNR (dB),6.542645515231688
+Mean custom filter time (s),2.156040770000004
+Gaussian custom filter time (s),1.8656603850000124
+Median inbuilt time (s),0.07723694999998543
+Median custom time (s),4.325968620000026
+Max pooling custom time (s),2.1655088900000123

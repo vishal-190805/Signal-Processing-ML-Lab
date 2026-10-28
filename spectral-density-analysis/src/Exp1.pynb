@@ -1,0 +1,25 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fft import fft
+
+# ---------------------------------------------------------
+# Task i: Define and Plot s1(t)
+# ---------------------------------------------------------
+F0 = 10           # Fundamental frequency in Hz
+Omega = 2 * np.pi * F0
+Fs = 500          # Sampling frequency (Hz) - satisfies Nyquist (> 60 Hz)
+T_duration = 0.5  # Duration of signal in seconds
+t = np.arange(0, T_duration, 1/Fs)
+
+# Define s1(t)
+s1 = np.sin(Omega * t) + (1/3) * np.cos(3 * Omega * t)
+
+plt.figure(figsize=(10, 4))
+plt.plot(t, s1, label=r'$s_1(t) = \sin(\Omega t) + \frac{1}{3}\cos(3\Omega t)$')
+plt.title("Task i: Time-Domain Signal $s_1(t)$")
+plt.xlabel("Time (seconds)")
+plt.ylabel("Amplitude")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
