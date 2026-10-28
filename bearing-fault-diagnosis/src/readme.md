@@ -1,57 +1,33 @@
-# src
+# Bearing Fault Diagnosis using Signal Processing
 
-## Documentation
+This implementation focuses on detecting bearing faults (inner and outer raceway) and comparing them against baseline healthy conditions using signal processing techniques.
 
+## Objectives
+The primary goal is to implement a complete signal processing pipeline to identify bearing faults from raw vibration data, as specified in the EE69205 SPSD Lab manual.
 
-==============================================================================
- Bearing Fault Diagnosis using Signal Processing Techniques
- EE69205 - Signal Processing and System Design Laboratory, IIT Kharagpur
-==============================================================================
+## Methodology
+The following pipeline is implemented for each condition (Healthy, Inner Race Fault, Outer Race Fault):
 
-What this script does
-----------------------
-Implements every step asked for in the lab manual, for all three parts:
+1.  **Signal Acquisition**: Loading `.mat` files from the MFPT bearing dataset.
+2.  **Domain Analysis**: 
+    *   **Time Domain**: Plotting raw signals to observe impact patterns.
+    *   **Frequency Domain**: Implementing a **recursive radix-2 Cooley-Tukey FFT** from scratch to analyze the spectrum.
+    *   **Time-Frequency Analysis**: Implementing a **Short-Time Fourier Transform (STFT)** from scratch to observe frequency shifts over time.
+3.  **Resonance Filtering**: Designing a bandpass FIR filter around the resonance band to isolate fault-induced impacts.
+4.  **Envelope Analysis**: 
+    *   Implementing the **Hilbert Transform** from scratch.
+    *   Computing the envelope of the filtered signal to extract the repetition frequency of the faults.
+5.  **Fault Verification**: Computing the power spectrum of the envelope and overlaying theoretical harmonics (BPFI / BPFO) for verification.
+6.  **Statistical Analysis**: Computing the **Kurtosis** of signals to quantify the "peakiness" associated with faults.
 
-    Part 1 : Inner raceway fault detection
-    Part 2 : Normal (baseline / healthy) condition
-    Part 3 : Outer raceway fault detection
+## Technical Implementation
+To adhere to laboratory requirements, the following components were implemented **from scratch** (without relying on `numpy.fft` or `scipy.fft`):
+*   Fast Fourier Transform (FFT)
+*   Short-Time Fourier Transform (STFT)
+*   Hilbert Transform
+*   Power Spectrum Calculation
 
-For each condition it:
-    1. Loads the .mat file (MFPT bearing dataset format: a struct called
-       'bearing' with fields gs, sr, rate, load, [BPFO, BPFI, FTF, BSF]).
-    2. Plots the signal in time and frequency domain.
-    3. Computes the FFT and the STFT of the signal FROM SCRATCH (own
-       recursive radix-2 Cooley-Tukey FFT, no numpy.fft / scipy.fft calls
-       anywhere in this file) and plots the results.
-    4. Designs a bandpass FIR filter around the resonance band that carries
-       the fault impacts.
-    5. Computes the envelope of the filtered signal using the Hilbert
-       transform, implemented FROM SCRATCH on top of the same FFT.
-    6. Computes the one-sided power spectrum of the envelope FROM SCRATCH.
-    7. Plots the envelope spectrum and overlays the theoretical BPFI / BPFO
-       harmonics for comparison, exactly like the "expected graph" figure in
-       the manual.
-    Additionally (Part 3): computes and compares the kurtosis of every
-       signal in the dataset, and applies the specific fc = 2670 Hz,
-       BW = 763 Hz bandpass filter requested for the outer race case.
-
-Required third-party libraries
--------------------------------
-    numpy      - array maths
-    scipy      - only used for: reading .mat files (scipy.io.loadmat),
-                 designing the FIR filter (scipy.signal.firwin) and applying
-                 it (scipy.signal.filtfilt), and kurtosis (scipy.stats.kurtosis).
-                 NONE of these are used for FFT/STFT/Hilbert/power-spectrum -
-                 those are implemented from scratch as required by the manual.
-    matplotlib - plotting
-
-Install with:
-    pip install numpy scipy matplotlib
-
-Directory layout expected (edit the constants below if yours differs)
-------------------------------------------------------------------------
-    E:\\7th sem\\SPML Lab\\Exp 4\\RollingElementBearingFaultDiagnosis-Data-master\\train_data
-    E:\\7th sem\\SPML Lab\\Exp 4\\RollingElementBearingFaultDiagnosis-Data-master\\test_data
-
-Author: written for Fighter's SPSD Lab, Experiment 4.
-==============================================================================
+## Dependencies
+*   `numpy`: Array manipulations.
+*   `scipy`: Used only for `.mat` file loading, FIR filter design (`firwin`), and `filtfilt`.
+*   `matplotlib`: Data visualization.

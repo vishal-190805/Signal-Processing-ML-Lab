@@ -1,77 +1,32 @@
-# src
+# Image Filtering and 2D Signal Analysis
 
-## Documentation
+This project implements various low-pass and high-pass filtering techniques to analyze 2D signals (images), focusing on noise reduction and edge detection.
 
-EE69205 - Experiment 2
+## Objectives
+The objective is to evaluate the effectiveness of different spatial filters in reducing Salt-and-Pepper noise and enhancing structural edges of an image.
 
-Name: Bagada Vishal Jayantilal
-Roll No.: 23EE38004
+## Analysis and Observations
 
-OBSERVATIONS AND CONCLUSION
-===========================
+### Noise Reduction (Low-Pass Filtering)
+The experiment compared several filters to remove Salt-and-Pepper noise. The results are evaluated using **Peak Signal-to-Noise Ratio (PSNR)**.
 
-1. Salt-and-pepper noise:
-   Salt-and-pepper noise introduces isolated bright and dark pixels.
-   The noisy-image PSNR was 17.1561 dB.
+| Filter | PSNR (dB) | Observation |
+| :--- | :--- | :--- |
+| **Noisy Image** | 17.16 | High presence of isolated bright/dark pixels. |
+| **Mean Filter** | 24.92 | Reduces noise but causes significant blurring of edges. |
+| **Gaussian Filter** | 24.53 | Smoother result, but less effective than Median for this noise type. |
+| **Median (Inbuilt)** | **34.25** | **Best performance**; effectively removes outliers while preserving edges. |
+| **Median (Custom)** | 33.54 | Close to inbuilt performance, demonstrating the neighborhood median logic. |
 
-2. Mean filter:
-   The 3x3 mean filter averages neighboring pixels and reduces noise,
-   but it also smooths image edges. The PSNR after filtering was
-   24.9154 dB.
+### Edge Detection (High-Pass Filtering)
+Various operators were implemented to identify rapid intensity transitions:
 
-3. Gaussian filter:
-   The specified 3x3 Gaussian kernel gives more weight to the center
-   and nearby pixels than to farther pixels. The PSNR after filtering
-   was 24.5333 dB.
+*   **Laplacian**: Highlights rapid intensity changes; useful for overall edge detection.
+*   **Sobel**: Directional filters (X and Y) that produce a gradient magnitude map.
+*   **Prewitt**: Similar to Sobel but uses equal weights, providing a slightly different edge response.
+*   **Canny**: Produces a clean, binary edge map by suppressing non-edge content.
+*   **LoG (Laplacian of Gaussian)**: Combines Gaussian smoothing with Laplacian to reduce noise sensitivity during edge detection.
+*   **Max Pooling**: Preserves the strongest local features, emphasizing bright structural elements.
 
-4. Median filter:
-   The median filter is particularly suitable for salt-and-pepper
-   noise because isolated extreme values are rejected when the
-   neighborhood median is selected.
-
-   Inbuilt median PSNR = 34.2509 dB.
-   Custom median PSNR  = 33.5423 dB.
-
-5. Best low-pass result by PSNR:
-   Median Inbuilt filter, with PSNR = 34.2509 dB.
-
-6. Laplacian:
-   The Laplacian is a second-order high-pass operator and emphasizes
-   rapid intensity changes and edges. It is not primarily a denoising
-   filter, so its PSNR should not be directly compared with the
-   low-pass denoising filters.
-
-7. Sobel:
-   Sobel-X emphasizes vertical intensity transitions while Sobel-Y
-   emphasizes horizontal intensity transitions. Their combination
-   produces the gradient magnitude.
-
-8. Prewitt:
-   Prewitt-X and Prewitt-Y detect directional intensity transitions.
-   Compared with Sobel, the Prewitt kernels use equal weights in the
-   directional rows or columns.
-
-9. Canny:
-   Canny produces a binary edge map and highlights significant
-   boundaries while suppressing much of the non-edge content.
-
-10. LoG:
-    Laplacian of Gaussian combines Gaussian smoothing with the
-    Laplacian operator. It highlights rapid intensity changes while
-    reducing sensitivity to small-scale noise.
-
-11. Max pooling:
-    A maximum operation over a local 5x5 region preserves the largest
-    intensity value in each neighborhood. It therefore emphasizes
-    strong local bright features.
-
-12. Inbuilt vs custom implementations:
-    Inbuilt functions are generally faster because they are optimized.
-    The custom implementations demonstrate the underlying
-    pixel-neighborhood operations.
-
-Conclusion:
-    The experiment demonstrates low-pass filtering for noise reduction,
-    high-pass filtering for edge enhancement, Canny and LoG for edge
-    detection, and maximum filtering/pooling for retaining strong
-    local features.
+## Conclusion
+The results demonstrate that **Median Filtering** is the most effective approach for removing impulse (Salt-and-Pepper) noise. For edge detection, the **Canny** operator provides the most precise boundaries, while **Sobel** and **Prewitt** provide useful gradient information for directional analysis.
